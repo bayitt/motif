@@ -1,6 +1,9 @@
 {
     "require": {
         "slim/slim": "4.*",
-        "slim/psr7": "^1.6"
+        "slim/psr7": "^1.6",
+        "doctrine/orm": "^2.18",
+        "symfony/cache": "^6.0",
+        "ramsey/uuid": "^4.7"
     }
 }
