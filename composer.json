@@ -4,6 +4,8 @@
         "slim/psr7": "^1.6",
         "doctrine/orm": "^2.18",
         "symfony/cache": "^6.0",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+        "vlucas/phpdotenv": "^5.6",
+        "php-di/php-di": "^7.0"
     }
 }
