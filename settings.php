@@ -1,6 +1,11 @@
 <?php
 
+use Dotenv\Dotenv;
+
 define("APP_ROOT", __DIR__);
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $isDev = $_ENV["APP_ENV"] !== "prod";
 
@@ -22,7 +27,6 @@ return [
                 "dbname" => $_ENV["DB_NAME"],
                 "user" => $_ENV["DB_USER"],
                 "password" => $_ENV["DB_PASSWORD"],
-                "charset" => "utf-8"
             ]
         ]
     ]
