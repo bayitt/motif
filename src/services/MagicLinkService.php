@@ -26,4 +26,10 @@ final class MagicLinkService
 
         return $magicLink;
     }
+
+    public function findOne(array $args): MagicLink | null
+    {
+        return $this->entityManager->getRepository(MagicLink::class)
+        ->findOneBy($args);
+    }
 }

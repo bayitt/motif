@@ -30,8 +30,8 @@ final class MagicLink implements JsonSerializable {
     {
         $this->uuid = Uuid::uuid4()->toString();
         $now = new DateTimeImmutable("now");
-        $now->add(new DateInterval(("PT0H10M0S")));
-        $this->expires_at = $now;
+        $expires_at = $now->add(new DateInterval(("PT0H10M0S")));
+        $this->expires_at = $expires_at;
     }
 
     public function getId(): int

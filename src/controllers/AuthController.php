@@ -30,12 +30,18 @@ class AuthController
         $this->mailgun->messages()->send($_ENV["MAIL_DOMAIN"], [
             "from" => $_ENV["MAIL_FROM"],
             "to" => $_ENV["AUTH_EMAIL"],
-            "subject" => "Login to Motif",
+            "subject" => "Motif Login",
             "text" => sprintf("Here is your magic link to login => %s", $_ENV["CLIENT_URL"] . "/login/$uuid")
         ]);
 
         $payload = json_encode(["message" => "Magic link has been sent to your email address"]);
         $response->getBody()->write($payload);
+        return $response;
+    }
+
+    public function login(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+
         return $response;
     }
 }

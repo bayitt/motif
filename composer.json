@@ -1,14 +1,19 @@
 {
-    "require": {
-        "slim/slim": "4.*",
-        "slim/psr7": "^1.6",
-        "doctrine/orm": "^2.18",
-        "symfony/cache": "^6.0",
-        "ramsey/uuid": "^4.7",
-        "vlucas/phpdotenv": "^5.6",
-        "uma/dic": "^3.0",
-        "mailgun/mailgun-php": "^4.1",
-        "symfony/http-client": "^6.0",
-        "nyholm/psr7": "^1.8"
+  "require": {
+    "slim/slim": "4.*",
+    "slim/psr7": "^1.6",
+    "doctrine/orm": "^2.18",
+    "symfony/cache": "^6.0",
+    "ramsey/uuid": "^4.7",
+    "vlucas/phpdotenv": "^5.6",
+    "uma/dic": "^3.0",
+    "mailgun/mailgun-php": "^4.1",
+    "symfony/http-client": "^6.0",
+    "nyholm/psr7": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Motif\\": "src/"
     }
+  }
 }
