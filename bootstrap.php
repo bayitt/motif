@@ -6,8 +6,9 @@ use Doctrine\ORM\Tools\Setup;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UMA\DIC\Container;
-use App\Services\ReadingService;
-use App\Services\MagicLinkService;
+use Motif\Services\ReadingService;
+use Motif\Services\MagicLinkService;
+use Motif\Controllers\AuthController;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -25,13 +26,17 @@ $container->set(EntityManager::class, static function(Container $container): Ent
 });
 
 // Setting the services in the container
-
 $container->set(ReadingService::class, static function(Container $container): ReadingService {
     return new ReadingService($container->get(EntityManager::class));
 });
 
 $container->set(MagicLinkService::class, static function(Container $container): MagicLinkService {
     return new MagicLinkService($container->get(EntityManager::class));
+});
+
+// Setting the controllers in the container
+$container->set(AuthController::class, static function(Container $container): AuthController {
+    return new AuthController($container->get(MagicLinkService::class));
 });
 
 return $container;

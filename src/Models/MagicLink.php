@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Motif\Models;
 
+use DateInterval;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -28,7 +29,9 @@ final class MagicLink implements JsonSerializable {
     public function __construct()
     {
         $this->uuid = Uuid::uuid4()->toString();
-        $this->expires_at = new DateTimeImmutable("now");
+        $now = new DateTimeImmutable("now");
+        $now->add(new DateInterval(("PT0H10M0S")));
+        $this->expires_at = $now;
     }
 
     public function getId(): int

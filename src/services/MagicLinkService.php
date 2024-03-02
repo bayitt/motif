@@ -9,7 +9,7 @@ use Motif\Models\MagicLink;
 
 final class MagicLinkService 
 {
-    /** @var EntityManager $EntityManager */
+    /** @var EntityManager $entityManager */
     private EntityManager $entityManager;
 
     public function __construct(EntityManager $entityManager)
@@ -17,7 +17,7 @@ final class MagicLinkService
         $this->entityManager = $entityManager;
     }
 
-    public function create()
+    public function create(): MagicLink
     {
         $magicLink = new MagicLink();
 
