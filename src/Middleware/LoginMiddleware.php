@@ -25,7 +25,7 @@ class LoginMiddleware
         $body = $request->getParsedBody();
 
         if (!isset($body["magic_link_uuid"]) || gettype($body["magic_link_uuid"]) !== "string") {
-            $request = $request->withAttribute("error", ["code" => 400, "message" => "Parameter magic_link_uuid is either missing from the request body is not a string"]);
+            $request = $request->withAttribute("error", ["code" => 400, "message" => "Parameter magic_link_uuid is either missing from the request body or is not a string"]);
             return $handler->handle($request);
         }
 

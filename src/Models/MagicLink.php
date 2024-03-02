@@ -26,6 +26,9 @@ final class MagicLink implements JsonSerializable {
     #[Column(type: "datetimetz_immutable", nullable: false)]
     private DateTimeImmutable $expires_at;
 
+    #[Column(type: "integer")]
+    private int $is_used;
+
     public function __construct()
     {
         $this->uuid = Uuid::uuid4()->toString();

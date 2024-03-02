@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Motif\Controllers;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Motif\Services\MagicLinkService;
 use Mailgun\Mailgun;
 
@@ -23,7 +23,7 @@ class AuthController
         $this->mailgun = Mailgun::create($_ENV["MAIL_API_KEY"]);
     }
 
-    public function initiateLogin(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function initiateLogin(Request $request, Response $response, array $args): Response
     {
         $magicLink = $this->magicLinkService->create();
         $uuid = $magicLink->getUuid();
@@ -39,9 +39,16 @@ class AuthController
         return $response;
     }
 
-    public function login(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function login(Request $request, Response $response, array $args): Response
     {
+        $error = $request->getAttribute("error");
 
+        if ($error) {
+            $response = $response->withStatus($error["code"]);
+            $payload = json_encode(["message" => $error["message"]]);
+            $response->getBody()->write($payload);
+            return $response;
+        }
         return $response;
     }
 }
