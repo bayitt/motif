@@ -36,4 +36,9 @@ final class MagicLinkService
         return $this->entityManager->getRepository(MagicLink::class)
             ->findOneBy($args);
     }
+
+    public function flush(): void 
+    {
+        $this->entityManager->flush();
+    }
 }

@@ -36,6 +36,7 @@ final class MagicLink implements JsonSerializable
         $now = new DateTimeImmutable("now");
         $expires_at = $now->add(new DateInterval(("PT0H10M0S")));
         $this->expires_at = $expires_at;
+        $this->is_used = 0;
     }
 
     public function getId(): int
@@ -53,11 +54,22 @@ final class MagicLink implements JsonSerializable
         return $this->expires_at;
     }
 
+    public function getIsUsed(): int
+    {
+        return $this->is_used;
+    }
+
     public function jsonSerialize(): array
     {
         return [
             'uuid' => $this->getUuid(),
-            'expires_at' => $this->getExpiresAt()
+            'expires_at' => $this->getExpiresAt(),
+            'is_used' => $this->getIsUsed(),
         ];        
+    }
+
+    public function setIsUsed()
+    {
+        $this->is_used = 1;
     }
 }

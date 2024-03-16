@@ -9,7 +9,8 @@
     "uma/dic": "^3.0",
     "mailgun/mailgun-php": "^4.1",
     "symfony/http-client": "^6.0",
-    "nyholm/psr7": "^1.8"
+    "nyholm/psr7": "^1.8",
+    "firebase/php-jwt": "^6.10"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "*"

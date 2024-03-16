@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Slim\Factory\AppFactory;
+use Slim\Routing\RouteCollectorProxy;
 use Motif\Controllers\AuthController;
 use Dotenv\Dotenv;
 
@@ -20,5 +21,9 @@ $app->addBodyParsingMiddleware();
 $app->post("/login/initiate", [AuthController::class, "initiateLogin"]);
 
 $app->post("/login", [AuthController::class, "login"])->add("LoginMiddleware");
+
+$app->group("/readings", function(RouteCollectorProxy $group) {
+
+});
 
 $app->run();

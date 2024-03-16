@@ -29,24 +29,30 @@ class LoginMiddleware
         $body = $request->getParsedBody();
 
         if (!isset($body["magic_link_uuid"]) || gettype($body["magic_link_uuid"]) !== "string") {
-            $request = $request->withAttribute("error", ["code" => 400, "message" => "Parameter magic_link_uuid is either missing from the request body or is not a string"]);
+            $request = $request->withAttribute("error", ["code" => 400, "error_id" => "login_001", "message" => "Parameter magic_link_uuid is either missing from the request body or is not a string"]);
             return $handler->handle($request);
         }
 
         $magicLink = $this->magicLinkService->findOne(["uuid" => $body["magic_link_uuid"]]);
 
         if (!$magicLink) {
-            $request = $request->withAttribute("error", ["code" => 404, "message" => sprintf("Magic link with uuid %s does not exist", $body["magic_link_uuid"])]);
+            $request = $request->withAttribute("error", ["code" => 404, "error_id" => "login_002", "message" => sprintf("Magic link with uuid %s does not exist", $body["magic_link_uuid"])]);
+            return $handler->handle($request);
+        }
+
+        if ($magicLink->getIsUsed()) {
+            $request = $request->withAttribute("error", ["code" => 400, "error_id" => "login_003", "message" => sprintf("Magic link with uuid has been used")]);
             return $handler->handle($request);
         }
 
         $now = new DateTimeImmutable("now");
 
         if ($now->getTimestamp() >= $magicLink->getExpiresAt()->getTimestamp()) {
-            $request = $request->withAttribute("error", ["code" => 404, "message" => sprintf("Magic link with uuid %s does not exist", $body["magic_link_uuid"])]);
+            $request = $request->withAttribute("error", ["code" => 404, "error_id" => "login_002", "message" => sprintf("Magic link with uuid %s does not exist", $body["magic_link_uuid"])]);
             return $handler->handle($request);
         }
 
+        $request = $request->withAttribute("magicLink", $magicLink);
         return $handler->handle($request);
     }
 }
