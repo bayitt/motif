@@ -7,9 +7,13 @@ namespace Motif\Services;
 use Doctrine\ORM\EntityManager;
 use Motif\Models\MagicLink;
 
-final class MagicLinkService 
+final class MagicLinkService
 {
-    /** @var EntityManager $entityManager */
+    /**
+     * 
+     *
+     * @var EntityManager $entityManager 
+     */
     private EntityManager $entityManager;
 
     public function __construct(EntityManager $entityManager)
@@ -30,6 +34,6 @@ final class MagicLinkService
     public function findOne(array $args): MagicLink | null
     {
         return $this->entityManager->getRepository(MagicLink::class)
-        ->findOneBy($args);
+            ->findOneBy($args);
     }
 }

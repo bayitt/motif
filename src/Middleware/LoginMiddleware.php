@@ -12,7 +12,11 @@ use DateTimeImmutable;
 
 class LoginMiddleware
 {
-    /** @var MagicLinkService $magicLinkService */
+    /**
+     * 
+     *
+     * @var MagicLinkService $magicLinkService 
+     */
     private MagicLinkService $magicLinkService;
 
     public function __construct(MagicLinkService $magicLinkService)

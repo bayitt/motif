@@ -8,7 +8,7 @@ use Dotenv\Dotenv;
 
 require __DIR__ . "/../vendor/autoload.php";
 
-$container = require_once __DIR__ . "/../bootstrap.php";
+$container = include_once __DIR__ . "/../bootstrap.php";
 
 $dotenv = Dotenv::createImmutable(__DIR__ . "/..");
 $dotenv->load();

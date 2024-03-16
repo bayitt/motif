@@ -14,7 +14,8 @@ use JsonSerializable;
 use Ramsey\Uuid\Uuid;
 
 #[Entity, Table(name: "readings")]
-final class Reading implements JsonSerializable {
+final class Reading implements JsonSerializable
+{
 
     #[Id, Column(type: "integer"), GeneratedValue(strategy: "AUTO")]
     private int $id;

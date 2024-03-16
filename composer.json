@@ -11,6 +11,9 @@
     "symfony/http-client": "^6.0",
     "nyholm/psr7": "^1.8"
   },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "*"
+  },
   "autoload": {
     "psr-4": {
       "Motif\\": "src/"

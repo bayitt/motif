@@ -15,7 +15,8 @@ use Ramsey\Uuid\Uuid;
 use JsonSerializable;
 
 #[Entity, Table(name: "magic_links")]
-final class MagicLink implements JsonSerializable {
+final class MagicLink implements JsonSerializable
+{
 
     #[Id, Column(type: "integer"), GeneratedValue(strategy: "AUTO")]
     private int $id;

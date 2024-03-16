@@ -9,7 +9,11 @@ use Motif\Models\Reading;
 
 final class ReadingService
 {
-    /** @var EntityManager $EntityManager */
+    /**
+     * 
+     *
+     * @var EntityManager $EntityManager 
+     */
     private EntityManager $entityManager;
 
     public function __construct(EntityManager $entityManager)
