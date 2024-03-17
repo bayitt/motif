@@ -9,6 +9,7 @@ use UMA\DIC\Container;
 use Motif\Services\ReadingService;
 use Motif\Services\MagicLinkService;
 use Motif\Controllers\AuthController;
+use Motif\Controllers\ReadingController;
 use Motif\Middleware\LoginMiddleware;
 
 require_once __DIR__ . "/vendor/autoload.php";
@@ -45,6 +46,12 @@ $container->set(
 $container->set(
     AuthController::class, static function (Container $container): AuthController {
         return new AuthController($container->get(MagicLinkService::class));
+    }
+);
+
+$container->set(
+    ReadingController::class, static function (Container $container): ReadingController {
+        return new ReadingController($container->get(ReadingService::class));
     }
 );
 
