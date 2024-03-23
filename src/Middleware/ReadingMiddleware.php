@@ -32,8 +32,9 @@ class ReadingMiddleware
         } else if($method === "put") {
             return $this->validateReadingUpdate($request, $handler);
         }
-        else if($method === "delete")
+        else if($method === "delete") {
             return $this->validateReadingDeletion($request, $handler);
+        }
 
 
         return $handler->handle($request);

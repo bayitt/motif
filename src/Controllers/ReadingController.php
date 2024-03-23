@@ -26,6 +26,11 @@ class ReadingController
 
     public function create(Request $request, Response $response, Array $args): Response
     {
+        $body = $request->getParsedBody();
+        $reading = $this->readingService->create($body["value"]);
+        $response = $response->withStatus(201);
+        $response->getBody()->write(json_encode($reading->jsonSerialize()));
+
         return $response;
     }
 
