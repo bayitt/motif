@@ -12,6 +12,7 @@ use Motif\Controllers\AuthController;
 use Motif\Controllers\ReadingController;
 use Motif\Middleware\LoginMiddleware;
 use Motif\Middleware\AuthMiddleware;
+use Motif\Middleware\ReadingMiddleware;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -68,5 +69,9 @@ $container->set(
         return new AuthMiddleware();
     }
 );
+
+$container->set("ReadingMiddleware", static function (Container $container): ReadingMiddleware {
+    return new ReadingMiddleware($container->get(ReadingService::class));
+});
 
 return $container;

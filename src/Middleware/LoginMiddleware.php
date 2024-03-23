@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Motif\Middleware;
 
-use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Slim\Psr7\Response;
 use Motif\Services\MagicLinkService;
 use DateTimeImmutable;
 

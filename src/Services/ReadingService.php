@@ -21,7 +21,7 @@ final class ReadingService
         $this->entityManager = $entityManager;
     }
 
-    public function create(Int $value)
+    public function create(Int $value): Reading
     {
         $reading = new Reading($value);
 
@@ -29,5 +29,10 @@ final class ReadingService
         $this->entityManager->flush($reading);
 
         return $reading;
+    }
+
+    public function findOne(Array $args): Reading | null
+    {
+        return $this->entityManager->getRepository(Reading::class)->findOneBy($args);
     }
 }

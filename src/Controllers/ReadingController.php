@@ -28,4 +28,14 @@ class ReadingController
     {
         return $response;
     }
+
+    public function update(Request $request, Response $response, Array $args): Response
+    {
+        return $response;
+    }
+
+    public function delete(Request $request, Response $response, Array $args): Response
+    {
+        return $response;
+    }
 }
