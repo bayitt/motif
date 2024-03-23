@@ -54,15 +54,6 @@ class AuthController
 
     public function login(Request $request, Response $response, array $args): Response
     {
-        $error = $request->getAttribute("error");
-
-        if ($error) {
-            $response = $response->withStatus($error["code"]);
-            $payload = json_encode(["code" => $error["error_id"], "message" => $error["message"]]);
-            $response->getBody()->write($payload);
-            return $response;
-        }
-
         $now = new DateTimeImmutable("now");
         $expires = $now->add(new DateInterval("PT72H0M0S"));
 

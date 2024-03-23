@@ -11,6 +11,7 @@ use Motif\Services\MagicLinkService;
 use Motif\Controllers\AuthController;
 use Motif\Controllers\ReadingController;
 use Motif\Middleware\LoginMiddleware;
+use Motif\Middleware\AuthMiddleware;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -59,6 +60,12 @@ $container->set(
 $container->set(
     "LoginMiddleware", static function (Container $container): LoginMiddleware {
         return new LoginMiddleware($container->get(MagicLinkService::class));
+    }
+);
+
+$container->set(
+    "AuthMiddleware", static function (Container $container): AuthMiddleware {
+        return new AuthMiddleware();
     }
 );
 

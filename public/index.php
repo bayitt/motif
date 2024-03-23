@@ -24,6 +24,6 @@ $app->post("/login", [AuthController::class, "login"])->add("LoginMiddleware");
 
 $app->group("/readings", function(RouteCollectorProxy $group) {
 
-});
+})->add("AuthMiddleware");
 
 $app->run();

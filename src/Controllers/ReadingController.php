@@ -16,7 +16,7 @@ class ReadingController
      * 
      *
      * @var ReadingService $readingService 
-    */
+     */
     private ReadingService $readingService;
 
     public function __construct(ReadingService $readingService)
