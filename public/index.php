@@ -26,6 +26,7 @@ $app->post("/login", [AuthController::class, "login"])->add("LoginMiddleware");
 $app->group(
     "/readings", function (RouteCollectorProxy $group) {
         $group->post("", [ReadingController::class, "create"]);
+        $group->get("", [ReadingController::class, "get"]);
         $group->put("/{uuid}", [ReadingController::class, "update"]);
         $group->delete("/{uuid}", [ReadingController::class, "delete"]);
     }

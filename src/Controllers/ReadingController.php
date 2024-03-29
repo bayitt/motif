@@ -28,12 +28,22 @@ class ReadingController
     public function create(Request $request, Response $response, Array $args): Response
     {
         $body = $request->getParsedBody();
-        $created_at = isset($body["created_at"]) ? DateTimeImmutable::createFromFormat("Y-m-d", $body["created_at"]) : null;
+        $created_at = isset($body["date"]) ? DateTimeImmutable::createFromFormat("Y-m-d", $body["date"]) : null;
         $reading = $this->readingService->create($body["value"], $created_at);
         $response = $response->withStatus(201);
         $payload = json_encode($reading->jsonSerialize());
 
         $response->getBody()->write($payload);
+        return $response;
+    }
+
+    public function get(Request $request, Response $response, Array $args): Response
+    {
+        $body = $request->getParsedBody();
+        $readings = $this->readingService->findByDate($body["date"]);
+        $payload = json_encode($readings);
+        $response->getBody()->write($payload);
+
         return $response;
     }
 

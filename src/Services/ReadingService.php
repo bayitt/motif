@@ -42,6 +42,25 @@ final class ReadingService
         return $this->entityManager->getRepository(Reading::class)->findOneBy($args);
     }
 
+    
+    public function findByDate(String $date): Array
+    {
+        $repository = $this->entityManager->createQueryBuilder("readings");
+        $query = $repository->where("readings.created_at >= :start_date AND readings.created_at <= :end_date")
+            ->orderBy("readings.created_at DESC")
+            ->getQuery();
+
+        $start_date = DateTimeImmutable::createFromFormat("Y-m-d h:i:s", $date . " 00:00:00");
+        $end_date = DateTimeImmutable::createFromFormat("Y-m-d h:i:s", $date . " 23:59:59");
+        
+        $query->setParameter(":start_date", $start_date);
+        $query->setParameter(":end_date", $end_date);
+
+        $readings = $query->getResult();
+
+        return array_map(fn ($reading) => $reading->jsonSerializes(), $readings);
+    }
+
     public function delete(Reading $reading): void
     {
         $this->entityManager->remove($reading);

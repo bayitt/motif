@@ -9,6 +9,7 @@ use Psr\Http\Message\RequestInterface as Request;
 use Motif\Services\ReadingService;
 use Slim\Routing\RouteContext;
 use Slim\Psr7\Response;
+use DateTime;
 
 class ReadingMiddleware
 {
@@ -27,15 +28,17 @@ class ReadingMiddleware
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
         $method = strtolower($request->getMethod());
-        if ($method === "post") {
+
+        switch($method) {
+        case "post":
             return $this->validateReadingCreation($request, $handler);
-        } else if($method === "put") {
+        case "get":
+            return $this->validateReadingRead($request, $handler);
+        case "put":
             return $this->validateReadingUpdate($request, $handler);
-        }
-        else if($method === "delete") {
+        case "delete":
             return $this->validateReadingDeletion($request, $handler);
         }
-
 
         return $handler->handle($request);
     }
@@ -53,6 +56,37 @@ class ReadingMiddleware
                 "message" => "Parameter value is missing from the request body or is not an integer"
                 ]
             );
+            $response->getBody()->write($payload);
+            return $response;
+        }
+
+        return $handler->handle($request);
+    }
+
+    private function validateReadingRead(Request $request, RequestHandler $handler): Response
+    {
+        $body = $request->getParsedBody();
+        $payload = json_encode(
+            [
+            "code" => "reading_001",
+            "message" => "Parameter date is missing or is not a valid date"
+            ]
+        );
+
+        if (!isset($body["date"]) || gettype($body["date"]) !== "string") {
+            var_dump($body);
+            $response = new Response();
+            $response->getBody()->write($payload);
+            return $response;
+        }
+
+        $date = $body["date"];
+        $format = "Y-m-d";
+        $dateTime = DateTime::createFromFormat($format, $date);
+
+        if (!$dateTime || !$dateTime->format($format) !== $date) {
+            var_dump("inside the second block");
+            $response = new Response();
             $response->getBody()->write($payload);
             return $response;
         }
