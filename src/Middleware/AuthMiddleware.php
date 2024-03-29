@@ -23,7 +23,7 @@ class AuthMiddleware
             "message" => "Unauthenticated."
             ]
         );
-        $authHeader = $request->getHeader("Authorization");
+        $authHeader = $request->getHeaderLine("Authorization");
         $authHeaderSplits = explode(" ", $authHeader ?? "");
 
         if (!$authHeader || count($authHeaderSplits) !== 2) {

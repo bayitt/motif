@@ -32,12 +32,12 @@ final class Reading implements JsonSerializable
     #[Column(type: "datetimetz_immutable", nullable: false)]
     private DateTimeImmutable $updated_at;
 
-    public function __construct(Int $value)
+    public function __construct(Int $value, ?DateTimeImmutable $created_at)
     {
         $this->uuid = Uuid::uuid4()->toString();
         $this->value = $value;
         $now = new DateTimeImmutable("now");
-        $this->created_at = $now;
+        $this->created_at = $created_at ?? $now;
         $this->updated_at = $now;
     }
 
@@ -61,13 +61,18 @@ final class Reading implements JsonSerializable
         return $this->updated_at;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize(): Array
     {
         return [
             'uuid' => $this->getUuid(),
             'value' => $this->getValue(),
-            'created_at' => $this->getCreatedAt(),
-            'updated_at' => $this->getUpdatedAt(),
+            'created_at' => $this->getCreatedAt()->format("Y-m-d H:i:s"),
+            'updated_at' => $this->getUpdatedAt()->format("Y-m-d H:i:s"),
         ];     
+    }
+
+    public function setValue(Int $value): void
+    {
+        $this->value = $value;
     }
 } 

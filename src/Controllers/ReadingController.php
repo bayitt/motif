@@ -7,6 +7,7 @@ namespace Motif\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Motif\Services\ReadingService;
+use DateTimeImmutable;
 
 
 class ReadingController
@@ -27,20 +28,33 @@ class ReadingController
     public function create(Request $request, Response $response, Array $args): Response
     {
         $body = $request->getParsedBody();
-        $reading = $this->readingService->create($body["value"]);
+        $created_at = isset($body["created_at"]) ? DateTimeImmutable::createFromFormat("Y-m-d", $body["created_at"]) : null;
+        $reading = $this->readingService->create($body["value"], $created_at);
         $response = $response->withStatus(201);
-        $response->getBody()->write(json_encode($reading->jsonSerialize()));
+        $payload = json_encode($reading->jsonSerialize());
 
+        $response->getBody()->write($payload);
         return $response;
     }
 
     public function update(Request $request, Response $response, Array $args): Response
     {
+        $body = $request->getParsedBody();
+        $reading = $request->getAttribute("reading");
+        $reading->setValue($body["value"]);
+        $this->readingService->flush();
+        $payload = json_encode($reading->jsonSerialize());
+
+        $response->getBody()->write($payload);
         return $response;
     }
 
     public function delete(Request $request, Response $response, Array $args): Response
     {
+        $reading = $request->getAttribute("reading");
+        $this->readingService->delete($reading);
+
+        $response = $response->withStatus(204);
         return $response;
     }
 }

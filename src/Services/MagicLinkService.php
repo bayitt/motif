@@ -21,6 +21,11 @@ final class MagicLinkService
         $this->entityManager = $entityManager;
     }
 
+    public function flush(): void 
+    {
+        $this->entityManager->flush();
+    }
+
     public function create(): MagicLink
     {
         $magicLink = new MagicLink();
@@ -35,10 +40,5 @@ final class MagicLinkService
     {
         return $this->entityManager->getRepository(MagicLink::class)
             ->findOneBy($args);
-    }
-
-    public function flush(): void 
-    {
-        $this->entityManager->flush();
     }
 }

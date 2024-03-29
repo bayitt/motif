@@ -29,6 +29,6 @@ $app->group(
         $group->put("/{uuid}", [ReadingController::class, "update"]);
         $group->delete("/{uuid}", [ReadingController::class, "delete"]);
     }
-)->add("AuthMiddleware")->add("ReadingMiddleware");
+)->add("ReadingMiddleware")->add("AuthMiddleware");
 
 $app->run();

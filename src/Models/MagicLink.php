@@ -68,7 +68,7 @@ final class MagicLink implements JsonSerializable
         ];        
     }
 
-    public function setIsUsed()
+    public function setIsUsed(): void
     {
         $this->is_used = 1;
     }

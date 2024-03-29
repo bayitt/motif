@@ -6,6 +6,7 @@ namespace Motif\Services;
 
 use Doctrine\ORM\EntityManager;
 use Motif\Models\Reading;
+use DateTimeImmutable;
 
 final class ReadingService
 {
@@ -21,9 +22,14 @@ final class ReadingService
         $this->entityManager = $entityManager;
     }
 
-    public function create(Int $value): Reading
+    public function flush(): void 
     {
-        $reading = new Reading($value);
+        $this->entityManager->flush();
+    }
+
+    public function create(Int $value, ?DateTimeImmutable $created_at): Reading
+    {
+        $reading = new Reading($value, $created_at);
 
         $this->entityManager->persist($reading);
         $this->entityManager->flush($reading);
@@ -34,5 +40,11 @@ final class ReadingService
     public function findOne(Array $args): Reading | null
     {
         return $this->entityManager->getRepository(Reading::class)->findOneBy($args);
+    }
+
+    public function delete(Reading $reading): void
+    {
+        $this->entityManager->remove($reading);
+        $this->flush();
     }
 }
