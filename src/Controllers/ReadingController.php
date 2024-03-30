@@ -39,8 +39,10 @@ class ReadingController
 
     public function get(Request $request, Response $response, Array $args): Response
     {
-        $body = $request->getParsedBody();
-        $readings = $this->readingService->findByDate($body["date"]);
+        $queryParams = $request->getQueryParams();
+        $start_date = isset($queryParams["start_date"]) ? $queryParams["start_date"] : date("Y-m-d");
+        $end_date = isset($queryParams["end_date"]) ? $queryParams["end_date"] : date("Y-m-d");
+        $readings = $this->readingService->findBetweenDates($start_date, $end_date);
         $payload = json_encode($readings);
         $response->getBody()->write($payload);
 

@@ -65,30 +65,38 @@ class ReadingMiddleware
 
     private function validateReadingRead(Request $request, RequestHandler $handler): Response
     {
-        $body = $request->getParsedBody();
+        $queryParams = $request->getQueryParams();
+
+        if (!isset($queryParams["start_date"]) && !isset($queryParams["end_date"]))
+            return $handler->handle($request);
+
         $payload = json_encode(
             [
             "code" => "reading_001",
-            "message" => "Parameter date is missing or is not a valid date"
+            "message" => "Query parameter start_date or end_date is not a valid date"
             ]
         );
 
-        if (!isset($body["date"]) || gettype($body["date"]) !== "string") {
-            var_dump($body);
-            $response = new Response();
-            $response->getBody()->write($payload);
-            return $response;
+        $format = "Y-m-d";
+
+        if (isset($queryParams["start_date"])) {
+            $date = $queryParams["start_date"];
+            $dateTime = DateTime::createFromFormat($format, $date);
+            if (!$dateTime || ($dateTime->format($format) !== $date)) {
+                $response = new Response();
+                $response->getBody()->write($payload);
+                return $response;
+            }
         }
 
-        $date = $body["date"];
-        $format = "Y-m-d";
-        $dateTime = DateTime::createFromFormat($format, $date);
-
-        if (!$dateTime || !$dateTime->format($format) !== $date) {
-            var_dump("inside the second block");
-            $response = new Response();
-            $response->getBody()->write($payload);
-            return $response;
+        if (isset($queryParams["end_date"])) {
+            $date = $queryParams["end_date"];
+            $dateTime = DateTime::createFromFormat($format, $date);
+            if (!$dateTime || ($dateTime->format($format) !== $date)) {
+                $response = new Response();
+                $response->getBody()->write($payload);
+                return $response;
+            }
         }
 
         return $handler->handle($request);
