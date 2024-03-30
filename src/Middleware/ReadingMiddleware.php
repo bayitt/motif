@@ -67,8 +67,9 @@ class ReadingMiddleware
     {
         $queryParams = $request->getQueryParams();
 
-        if (!isset($queryParams["start_date"]) && !isset($queryParams["end_date"]))
+        if (!isset($queryParams["start_date"]) && !isset($queryParams["end_date"])) {
             return $handler->handle($request);
+        }
 
         $payload = json_encode(
             [
