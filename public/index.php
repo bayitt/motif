@@ -6,6 +6,7 @@ use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
 use Motif\Controllers\AuthController;
 use Motif\Controllers\ReadingController;
+use Motif\Handlers\ErrorHandler;
 use Dotenv\Dotenv;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -31,5 +32,10 @@ $app->group(
         $group->delete("/{uuid}", [ReadingController::class, "delete"]);
     }
 )->add("ReadingMiddleware")->add("AuthMiddleware");
+
+$errorHandler = new ErrorHandler($app->getCallableResolver(), $app->getResponseFactory());
+$isDev = $_ENV["APP_ENV"] !== "prod";
+$errorMiddleware = $app->addErrorMiddleware($isDev, $isDev, true);
+$errorMiddleware->setDefaultErrorHandler($errorHandler);
 
 $app->run();
